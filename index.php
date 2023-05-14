@@ -126,8 +126,8 @@
             <!-- <label for="numero">Número:</label>
             <input type="text" name="numero" id="numero" class="form-control"> -->
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="logradouro" placeholder="logradouro" name="logradouro">
-                    <label for="logradouro">Logradouro</label>
+                    <input type="text" class="form-control" id="numero" placeholder="numero" name="numero">
+                    <label for="numero">Número</label>
                 </div>
             </div>
 
