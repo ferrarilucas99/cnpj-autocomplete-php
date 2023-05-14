@@ -1,3 +1,17 @@
+$(document).on('keypress', '#cnpj', function(evt){
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      evt.preventDefault();
+    }
+});
+$(document).ready(function() {
+    $('#cnpj').inputmask({
+      mask: '99.999.999/9999-99',
+      clearMaskOnLostFocus: true,
+      autoUnmask: true
+    });
+});
 toastr.options = {
     "closeButton": true,
     "preventDuplicates": true,
@@ -39,7 +53,7 @@ $(document).on('submit', '#my-form', function(e) {
     var atividade_principal_code = $('#atividade_principal_code');
     var atividade_principal_text = $('#atividade_principal_text');
 
-    // ANTIGA REQUISICAO FUNCIONAVA APENAS COM PLUGIN PARA DESABILITAR O CORS
+    // ANTIGA REQUISICAO, FUNCIONAVA APENAS COM PLUGIN PARA DESABILITAR O CORS
     // $.ajax({
     //     async: true,
     //     crossDomain: true,
@@ -148,18 +162,15 @@ $(document).on('submit', '#my-form', function(e) {
             Accept: 'application/json'
         },
         success: function (data){
-            document.getElementById('result').innerHTML = "";
-            document.getElementById('qsa').innerHTML = "";
+            $('#result').html('');
+            $('#qsa').html('');
             var response = JSON.parse(data);
             var obj = JSON.parse(response.data);
-            console.log(obj);
             if (Object.keys(obj).indexOf('message') !== -1) {
-                console.log('existe');
                 var msg = obj.message == 'Too many requests, please try again later.' ? 'Muitas requisiçoes, aguarde um momento' : obj.message;
                 toastr.error(msg);
                 // toastr.error('Algo de erraro não está certo!');
             } else {
-                console.log('não existe');
                 toastr.success('Sucesso!');
             }
             const dateString = obj.ultima_atualizacao;
@@ -205,6 +216,7 @@ $(document).on('submit', '#my-form', function(e) {
                 atividade_principal_text.val(atividade.text);
             });
 
+            $('#sec_title').show();
             const atividadesSecundarias = obj.atividades_secundarias;
 
             atividadesSecundarias.forEach(atividade => {
@@ -222,37 +234,41 @@ $(document).on('submit', '#my-form', function(e) {
                 divResult.appendChild(pTexto);
             });
 
-            const qsa = obj.qsa;
+            $('#qsa_title').hide();
+            if(obj.qsa != ''){
+                $('#qsa_title').show();
+                const qsa = obj.qsa;
 
-            qsa.forEach(q => {
-                const nome = q.nome;
-                const qual = q.qual;
-                const pais_origem = q.pais_origem;
-                const nome_resp_legal = q.nome_resp_legal;
-                const qual_resp_legal = q.qual_resp_legal;
+                qsa.forEach(q => {
+                    const nome = q.nome;
+                    const qual = q.qual;
+                    const pais_origem = q.pais_origem;
+                    const nome_resp_legal = q.nome_resp_legal;
+                    const qual_resp_legal = q.qual_resp_legal;
 
-                const pNome = document.createElement('p');
-                pNome.textContent = `Nome: ${nome}`;
+                    const pNome = document.createElement('p');
+                    pNome.textContent = `Nome: ${nome}`;
 
-                const pQual = document.createElement('p');
-                pQual.textContent = `Qual: ${qual}`;
+                    const pQual = document.createElement('p');
+                    pQual.textContent = `Qual: ${qual}`;
 
-                const pPaisOrigem = document.createElement('p');
-                pPaisOrigem.textContent = `País de origem: ${pais_origem}`;
+                    const pPaisOrigem = document.createElement('p');
+                    pPaisOrigem.textContent = `País de origem: ${pais_origem}`;
 
-                const pNomeRespLegal = document.createElement('p');
-                pNomeRespLegal.textContent = `Nome responsável legal: ${nome_resp_legal}`;
+                    const pNomeRespLegal = document.createElement('p');
+                    pNomeRespLegal.textContent = `Nome responsável legal: ${nome_resp_legal}`;
 
-                const pQualRespLegal = document.createElement('p');
-                pQualRespLegal.innerHTML  = `Qual responsável legal: ${qual_resp_legal} <br><hr>`;
+                    const pQualRespLegal = document.createElement('p');
+                    pQualRespLegal.innerHTML  = `Qual responsável legal: ${qual_resp_legal} <br><hr>`;
 
-                const divQSA = document.getElementById('qsa');
-                divQSA.appendChild(pNome);
-                divQSA.appendChild(pQual);
-                divQSA.appendChild(pPaisOrigem);
-                divQSA.appendChild(pNomeRespLegal);
-                divQSA.appendChild(pQualRespLegal);
-            });
+                    const divQSA = document.getElementById('qsa');
+                    divQSA.appendChild(pNome);
+                    divQSA.appendChild(pQual);
+                    divQSA.appendChild(pPaisOrigem);
+                    divQSA.appendChild(pNomeRespLegal);
+                    divQSA.appendChild(pQualRespLegal);
+                });
+            }
         },
         error: function(data){
             toastr.error('Algo de errado!');

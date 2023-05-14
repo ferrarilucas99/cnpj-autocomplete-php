@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Lucas Ferrari">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -15,16 +16,19 @@
             max-height: 350px;
             overflow: auto;
         }
+        #sec_qsa h4{
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container d-flex justify-content-center flex-column mb-5">
         <h1 style="text-align: center;">Consultar CNPJ</h1>
 
-        <form action="/curl.php" id="my-form">
+        <form action="./curl.php" id="my-form">
             <div class="input-group mb-3">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="cnpj" placeholder="CNPJ" name="cnpj">
+                    <input type="text" class="form-control" id="cnpj" placeholder="CNPJ" name="cnpj" maxlength="18">
                     <label for="cnpj">CNPJ</label>
                 </div>
                 <button class="btn btn-success" type="submit" id="button-addon2"><i class="bi bi-search"></i> Pesquisar</button>
@@ -279,11 +283,13 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" id="sec_qsa">
             <div class="col-6">
+                <h4 id="sec_title" style="display: none;">Atividade sedundarias</h4>
                 <div id="result"></div>
             </div>
             <div class="col-6">
+                <h4 id="qsa_title" style="display: none;">QSA</h4>
                 <div id="qsa"></div>
             </div>
         </div>
@@ -300,6 +306,7 @@
         crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
